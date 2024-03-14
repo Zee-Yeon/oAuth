@@ -1,0 +1,82 @@
+spring:
+  profiles:
+    group:
+      "local": "local, jwt, oauth"
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "local"
+
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/oauth
+    username: sa
+    password: 1234
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+    hibernate:
+      ddl-auto: create
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-name: Google
+            client-id: 919191977820-3h88ksdn8amlfkp9aki8n2l5fptbfqba.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            authorization-grant-type: authorization_code
+            scope:
+              - profile
+              - email
+
+          naver:
+            client-name: Naver
+            client-id: Ng88UqYK_vTc9AFa_X48
+            client-secret: EnAmLvz9PQ
+            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            authorization-grant-type: authorization_code
+            scope:
+              - name
+              - email
+
+          kakao:
+            client-name: Kakao
+            client-id: 516199681ee267c6b7d23a0ac7018573
+            client-secret: zY29QOhpMZ9Zzvp32DfPGpPxpkLl8PBd
+            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - profile_image
+
+        provider:
+          naver:
+            authorization-uri: https://nid.naver.com/oauth2.0/authorize
+            token-uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user-name-attribute: response
+
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+server:
+  port: 8081
